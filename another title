@@ -1,0 +1,38 @@
+Resident Evil 2 – RevelaMons
+Papers
+Hearts of Iron IV
+Inside
+Becke_
+Hamlet or the Last Game without MMORPG Features
+Bad Mojo Redux
+Paradise Killer
+Death and Taxes
+Milk inside a bag of milk inside a bag of milk
+NORTH
+Cyberpunk 2077
+My name is You and its the only unusual thing in my life
+Limbus Company
+
+
+# REDDIT
+import praw
+
+reddit = praw.Reddit(
+    client_id='YOUR_CLIENT_ID',
+    client_secret='YOUR_CLIENT_SECRET',
+    user_agent='KafkaScraperBot'
+)
+
+subreddit = reddit.subreddit('all')
+
+for submission in subreddit.search('Kafka', limit=10):
+    print(f"Title: {submission.title}")
+    submission.comments.replace_more(limit=0)
+    for comment in submission.comments.list():
+        print(comment.body)
+
+# SAVE THE COMMENT
+import pandas as pd
+
+df = pd.DataFrame(comments, columns=["Comment"])
+df.to_csv("kafka_youtube_comments.csv", index=False)
