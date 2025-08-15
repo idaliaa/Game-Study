@@ -23,9 +23,9 @@ def search_youtube_videos(query, max_results=1):
     return video_ids
 
 # Function to get comments from a YouTube video
-def get_comments(video_id, max_pages=50):
+def get_comments(video_id):
     comments = []
-    page = 1
+
 
     try:
         request = youtube.commentThreads().list(
@@ -34,13 +34,14 @@ def get_comments(video_id, max_pages=50):
             maxResults=100,
             textFormat="plainText"
         )
+        page = 1
 
-        while request and page <= max_pages:
-            print(f"   📄 Fetching page {page} for video {video_id}... (so far: {len(comments)} comments)")
+        while request:
+            print(f"Fetching page {page} for video {video_id}... (so far: {len(comments)} comments)")
             try:
                 response = request.execute()
             except Exception as e:
-                print(f"⚠️ Error on page {page}: {e}")
+                print(f"Error on page {page}: {e}")
                 break  # don't retry forever
 
             for item in response['items']:
@@ -51,13 +52,13 @@ def get_comments(video_id, max_pages=50):
             page += 1
 
     except Exception as e:
-        print(f"❌ Failed to fetch comments for {video_id}: {e}")
+        print(f"Failed to fetch comments for {video_id}: {e}")
 
-    print(f"✅ Finished video {video_id} with {len(comments)} comments.")
+    print(f"Finished video {video_id} with {len(comments)} comments.")
     return comments
 
 # Load game titles from CSV
-df = pd.read_csv("kafka_games.csv")  # Make sure the file exists in your working directory
+df = pd.read_csv("kafka_games.csv", quotechar='"')  # Make sure the file exists in your working directory
 game_titles = df["title"].dropna().tolist()  # Extract non-empty titles
 
 

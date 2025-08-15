@@ -1,0 +1,36 @@
+
+import re
+
+
+# Load CSV (adjust file path as needed)
+df = pd.read_csv("kafka_game_youtube_comments.csv")
+
+# Drop rows with missing comments
+df.dropna(subset=['comment'], inplace=True)
+
+# Convert comments to lowercase
+df['comment'] = df['comment'].str.lower()
+
+# Remove URLs
+df['comment'] = df['comment'].apply(lambda x: re.sub(r'http\S+|www\S+|https\S+', '', x))
+
+# Remove mentions
+df['comment'] = df['comment'].apply(lambda x: re.sub(r'@\w+', '', x))
+
+# Remove unwanted special characters (keep hashtags and emojis)
+df['comment'] = df['comment'].apply(lambda x: re.sub(r'[^\w\s#]', '', x))
+
+# Strip leading/trailing whitespace
+df['comment'] = df['comment'].str.strip()
+
+# Remove duplicate comments
+df.drop_duplicates(subset=['comment'], inplace=True)
+
+# Remove empty comments after cleaning
+df = df[df['comment'].str.strip().astype(bool)]
+
+# Reset index
+df.reset_index(drop=True, inplace=True)
+
+# Save cleaned version
+df.to_csv('cleaned_youtube_comments.csv', index=False)
