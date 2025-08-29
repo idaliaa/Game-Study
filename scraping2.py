@@ -62,6 +62,6 @@ for idx, row in video_df.iterrows():
         comments_df = pd.read_csv("kafka_game_youtube_comments.csv")  # reload updated file
         all_comments = []
     else:
-        print("⚠️ No new comments found.")
+        print("No new comments found.")
 
 print("Done scraping new videos.")
