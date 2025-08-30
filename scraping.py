@@ -3,7 +3,7 @@
 from googleapiclient.discovery import build # Zugriff auf die YouTube-Daten
 import pandas as pd
 
-api_key = 'AIzaSyAVFMGcx7z47jV1mUsAO741dIF68jgfJoc' # Persönlicher "Schlüssel", um mit YouTube sprechen
+api_key = '1234567890ABCDEFGH' # Persönlicher "Schlüssel", um mit YouTube sprechen
 youtube = build('youtube', 'v3', developerKey=api_key) # YouTube-API-Objekt erstellen
 
 # Function to search for YouTube videos using a game title
